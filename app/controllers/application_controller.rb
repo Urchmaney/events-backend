@@ -4,29 +4,26 @@ class ApplicationController < ActionController::API
   before_action :authenticate
 
   def logged_in?
-    !!current_user
+    current_user ? true : false
   end
-  
+
   def current_user
-    if auth_present?
-      if !auth
-        return nil
-      end
-      user = User.find(auth['user'])
-      if user
-        @current_user ||= user
-      end
+    return nil unless auth_present?
+    return nil unless auth
+    user = User.find(auth['user'])
+    if user
+      @current_user ||= user
     end
   end
 
   def authenticate
-    render json: {error: "unauthorized"}, status: 401 unless logged_in?
+    render json: { error: 'unauthorized' }, status: 401 unless logged_in?
   end
 
   private
 
   def token
-    request.env["HTTP_AUTHORIZATION"].scan(/Bearer (.*)$/).flatten.last
+    request.env['HTTP_AUTHORIZATION'].scan(/Bearer (.*)$/).flatten.last
   end
 
   def auth
@@ -34,7 +31,6 @@ class ApplicationController < ActionController::API
   end
 
   def auth_present?
-    request.env["HTTP_AUTHORIZATION"].scan(/Bearer/).flatten.first
+    request.env['HTTP_AUTHORIZATION'].scan(/Bearer/).flatten.first
   end
-
 end

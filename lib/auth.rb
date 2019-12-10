@@ -10,10 +10,9 @@ class Auth
   end
 
   def self.decode(token)
-      JWT.decode(token, auth_secret, true, algorithm: algorithm).first
+    JWT.decode(token, auth_secret, true, algorithm: algorithm).first
     rescue StandardError
-      nil
-    end
+    nil
   end
 
   def self.auth_secret

@@ -10,10 +10,12 @@ class ApplicationController < ActionController::API
   def current_user
     return nil unless auth_present?
     return nil unless auth
+
     user = User.find(auth['user'])
-    if user
-      @current_user ||= user
-    end
+
+    return nil unless user
+
+    @current_user ||= user
   end
 
   def authenticate

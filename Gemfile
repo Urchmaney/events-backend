@@ -20,6 +20,8 @@ gem 'jwt'
 
 gem 'figaro'
 
+gem 'rack-cors'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

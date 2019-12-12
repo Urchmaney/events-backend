@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::SessionsController < ApplicationController
+class API::V1::SessionsController < ApplicationController
   skip_before_action :authenticate
 
   def create
@@ -9,7 +9,7 @@ class Api::V1::SessionsController < ApplicationController
       jwt = Auth.issue(user: user.id)
       render json: { jwt: jwt } && return
     end
-    render json: { error: 'Incorrect details' }, status: 404
+    render json: { error: 'Incorrect details' }, status: 400
   end
 
   private

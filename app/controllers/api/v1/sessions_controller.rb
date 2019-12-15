@@ -5,11 +5,14 @@ class API::V1::SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: auth_params[:email])
+    result = { error: 'Incorrect details.' }
+    status = 400
     if user&.authenticate(auth_params[:password])
       jwt = Auth.issue(user: user.id)
-      render json: { jwt: jwt } && return
+      result = { token: jwt } 
+      status = 200
     end
-    render json: { error: 'Incorrect details' }, status: 400
+    render json: result , status: status
   end
 
   private

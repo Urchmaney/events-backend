@@ -1,12 +1,14 @@
-class EventsController < ApplicationController
+# frozen_string_literal: true
+
+class API::V1::EventsController < ApplicationController
   before_action :authenticate
 
   def index
-    render json: currentUser.events , status: 200
+    render json: current_user.events , status: 200
   end
 
   def all
-    render json: currentUser.events , status: 200
+    render json: Event.all , status: 200
   end
 
   def organizers
@@ -14,7 +16,7 @@ class EventsController < ApplicationController
     status = 400
     result = 'Invalid event id'
     if @event
-      result = @event.organizers
+      result = @event.organizers.group_by{ |ele| ele.role }
       status = 200
     end
     render json: result , status: status

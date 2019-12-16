@@ -4,6 +4,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       post '/login', to: 'sessions#create'
       post '/register', to: 'users#create'
+      get '/events/all', to: 'events#all'
+      get 'events/:id/organizers', to: 'events#organizers'
+      get 'events/:id/comments', to: 'comments#index'
+      post 'events/:id/comments', to: 'comments#create'
     end
   end 
 end

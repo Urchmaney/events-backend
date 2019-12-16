@@ -5,9 +5,12 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       post '/register', to: 'users#create'
       get '/events/all', to: 'events#all'
-      get 'events/:id/organizers', to: 'events#organizers'
+      get 'events/:id/organizers', to: 'organizers#index'
       get 'events/:id/comments', to: 'comments#index'
       post 'events/:id/comments', to: 'comments#create'
+      post 'events', to: 'interests#create'
+      get 'events', to: 'events#index'
+      get 'events/:id/attendee', to: 'interests#index'
     end
   end 
 end

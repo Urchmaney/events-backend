@@ -2,4 +2,5 @@
 
 class Organizer < ApplicationRecord
   belongs_to :event
+  validates :name, :role, presence: true
 end

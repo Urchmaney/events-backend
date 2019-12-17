@@ -9,7 +9,7 @@ class API::V1::SessionsController < ApplicationController
     status = 400
     if user&.authenticate(auth_params[:password])
       jwt = Auth.issue(user: user.id)
-      result = { token: jwt } 
+      result = { token: jwt, is_admin: user.is_admin } 
       status = 200
     end
     render json: result , status: status

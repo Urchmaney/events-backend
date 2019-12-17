@@ -6,4 +6,5 @@ class Event < ApplicationRecord
   has_many :organizers
   has_many :comments
   has_many :comment_users, through: :comments, source: :user
+  accepts_nested_attributes_for :organizers
 end

@@ -13,7 +13,7 @@ class API::V1::EventsController < ApplicationController
 
   def create
     status = 200
-    result = 'Successfully Added Event.'
+    result = {result: 'Successfully Added Event.'}
     event = Event.create(events_params)
     if !event.valid?
       status = 400

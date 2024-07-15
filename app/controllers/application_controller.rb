@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  before_action :authenticate
+  before_action :authenticate, except: :setup
 
   def logged_in?
     current_user ? true : false
@@ -22,6 +22,19 @@ class ApplicationController < ActionController::API
     render json: { error: 'unauthorized' }, status: 401 unless logged_in?
   end
 
+  def setup
+    admin = User.find_by(email: ENV['ADMIN_EMAIL'])
+    result = 'Already Exists.'
+    if !admin
+      user = User.create(email: ENV['ADMIN_EMAIL'],firstname: ENV['ADMIN_FIRSTNAME'],
+      lastname: ENV['ADMIN_LASTNAME'], password: ENV['ADMIN_PASSWORD'], username: ENV['ADMIN_USERNAME'],
+    is_admin: true)
+      result = 'Successfully created admin' if user.valid?
+      result = user.errors.full_messages unless user.valid?
+    end
+    render json: result, status: 200
+  end
+
   private
 
   def token
@@ -33,6 +46,7 @@ class ApplicationController < ActionController::API
   end
 
   def auth_present?
+    return false unless request.env['HTTP_AUTHORIZATION']
     request.env['HTTP_AUTHORIZATION'].scan(/Bearer/).flatten.first
   end
 end
